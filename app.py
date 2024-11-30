@@ -87,7 +87,7 @@ add_header()  # Add header at the top
 # Add these right after your imports
 @st.cache_data
 def load_data():
-    df = pd.read_csv('cleaned_housing_data.csv')
+    df = pd.read_csv('data/cleaned_housing_data.csv')
     # Clean price data once at load time
     if df['price (USD)'].dtype == object:
         df['price (USD)'] = df['price (USD)'].str.replace('$', '').str.replace(',', '').astype(float)
@@ -95,11 +95,11 @@ def load_data():
 
 @st.cache_data
 def load_coordinates():
-    return pd.read_csv('coordinates.csv')
+    return pd.read_csv('data/coordinates.csv')
 
 @st.cache_data
 def load_zipcode_data():
-    return pd.read_csv('zipdf.csv')
+    return pd.read_csv('data/zipdf.csv')
 
 # I have cleaned the primary data and than saved it to cleaned_housing_data.csv, and then continued from here for streamlit.
 df = load_data()
