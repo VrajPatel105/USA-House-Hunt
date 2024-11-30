@@ -83,10 +83,31 @@ def add_linkedin():
 
 add_header()  # Add header at the top
 
-# Add these right after your imports
+csv_files = {
+    "Cleaned Housing Data": "https://drive.google.com/uc?id=18srx_2De7TabIbjLzKxkxa5EpALcH8N1",
+    "Coordinates": "https://drive.google.com/uc?id=1qBBsnkxOnNxP40U9Ye9H546uUIR9iFYc",
+    "ZipDF": "https://drive.google.com/uc?id=15ue2JD939eEFtTfDOZ9dpFI9NYIhPXh4",
+}
+
+# Function to load data with caching
 @st.cache_data
-def load_data():
-    df = pd.read_csv('cleaned_housing_data.csv')
+def load_data_from_drive(url):
+    return pd.read_csv(url)
+
+# Display and load the CSV files
+for name, url in csv_files.items():
+    st.write(f"### {name}")
+    try:
+        data = load_data_from_drive(url)
+        st.write(data.head())  # Display the first few rows
+    except Exception as e:
+        st.error(f"Failed to load {name}: {e}")
+
+# Example usage of cached functions for specific files
+@st.cache_data
+def load_cleaned_housing_data():
+    url = csv_files["Cleaned Housing Data"]
+    df = load_data_from_drive(url)
     # Clean price data once at load time
     if df['price (USD)'].dtype == object:
         df['price (USD)'] = df['price (USD)'].str.replace('$', '').str.replace(',', '').astype(float)
@@ -94,14 +115,14 @@ def load_data():
 
 @st.cache_data
 def load_coordinates():
-    return pd.read_csv('coordinates.csv')
+    return load_data_from_drive(csv_files["Coordinates"])
 
 @st.cache_data
 def load_zipcode_data():
-    return pd.read_csv('zipdf.csv')
+    return load_data_from_drive(csv_files["ZipDF"])
 
 # I have cleaned the primary data and than saved it to cleaned_housing_data.csv, and then continued from here for streamlit.
-df = load_data()
+df = load_cleaned_housing_data()
 coords = load_coordinates()
 zipcode_df = load_zipcode_data()
 
