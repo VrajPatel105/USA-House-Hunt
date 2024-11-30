@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import plotly.express as px
+import numpy as np
 import time
 from state_images import city_images
 from api import get_unsplash_image
@@ -83,45 +84,27 @@ def add_linkedin():
 
 add_header()  # Add header at the top
 
-# Direct download links for your files
-csv_files = {
-    "Cleaned Housing Data": "https://drive.google.com/uc?id=18srx_2De7TabIbjLzKxkxa5EpALcH8N1",
-    "Coordinates": "https://drive.google.com/uc?id=1qBBsnkxOnNxP40U9Ye9H546uUIR9iFYc",
-    "ZipDF": "https://drive.google.com/uc?id=15ue2JD939eEFtTfDOZ9dpFI9NYIhPXh4",
-}
-
-# Function to load data from Google Drive with caching
+# Add these right after your imports
 @st.cache_data
-def load_data_from_drive(url):
-    return pd.read_csv(url)
-
-# Load Cleaned Housing Data
-@st.cache_data
-def load_cleaned_housing_data():
-    url = csv_files["Cleaned Housing Data"]
-    df = load_data_from_drive(url)
-    # Ensure price column is properly cleaned
-    if "price (USD)" in df.columns and df["price (USD)"].dtype == object:
-        df["price (USD)"] = df["price (USD)"].str.replace("$", "").str.replace(",", "").astype(float)
+def load_data():
+    df = pd.read_csv('cleaned_housing_data.csv')
+    # Clean price data once at load time
+    if df['price (USD)'].dtype == object:
+        df['price (USD)'] = df['price (USD)'].str.replace('$', '').str.replace(',', '').astype(float)
     return df
 
-# Load Coordinates Data
 @st.cache_data
 def load_coordinates():
-    return load_data_from_drive(csv_files["Coordinates"])
+    return pd.read_csv('coordinates.csv')
 
-# Load ZipDF Data
 @st.cache_data
 def load_zipcode_data():
-    return load_data_from_drive(csv_files["ZipDF"])
+    return pd.read_csv('zipdf.csv')
 
-# Load data silently (no printing)
-df = load_cleaned_housing_data()
+# I have cleaned the primary data and than saved it to cleaned_housing_data.csv, and then continued from here for streamlit.
+df = load_data()
 coords = load_coordinates()
 zipcode_df = load_zipcode_data()
-df.columns = df.columns.str.strip().str.lower()  # Added this line to clean column names
-zipcode_df.columns = zipcode_df.columns.str.strip().str.lower()  # Ensure consistency for zipcode_df
-
 
 
 def add_key_insights():
@@ -504,17 +487,14 @@ def find_city_detail(city, state):
 def main():
     # Then update your main navigation code to include these:
     st.sidebar.title('Locate Property Details')
-    option = st.sidebar.selectbox('Select One', ['Overall', 'State', 'City'])
+    option = st.sidebar.selectbox('Select One',['Overall', 'State','City'])
+
 
     if option == 'Overall':
         load_overall_dashboard()
     elif option == 'State':
         # State-level selection
-        if 'state' in df.columns:  # Check if 'state' exists
-            selected_state = st.sidebar.selectbox('Select State', sorted(df['state'].unique().tolist()))
-        else:
-            st.error("'state' column is missing in the dataset.")  # Display error if 'state' column is missing
-            return
+        selected_state = st.sidebar.selectbox('Select State', sorted(df['state'].unique().tolist()))
 
         # Store the state of btn1 (Find State Details)
         if st.sidebar.button('Find State Details'):
@@ -525,11 +505,7 @@ def main():
             find_state_details(st.session_state['state_selected'])
 
             # Filter cities for the selected state
-            if 'city' in df.columns:  # Check if 'city' exists
-                cities_in_state = df[df['state'] == st.session_state['state_selected']]['city'].unique().tolist()
-            else:
-                st.error("'city' column is missing in the dataset.")  # Display error if 'city' column is missing
-                return
+            cities_in_state = df[df['state'] == st.session_state['state_selected']]['city'].unique().tolist()
 
             # Dropdown to select a city within the state
             selected_city = st.selectbox('Select City in State', sorted(cities_in_state), key="city_selector")
@@ -543,26 +519,20 @@ def main():
                 find_city_detail(st.session_state['city_selected'], selected_state)
     else:
         # Dropdown to select a city
-        if 'city' in df.columns:  # Check if 'city' exists
-            selected_city = st.sidebar.selectbox('Select City', sorted(df['city'].unique().tolist()))
-        else:
-            st.error("'city' column is missing in the dataset.")  # Display error if 'city' column is missing
-            return
+        selected_city = st.sidebar.selectbox('Select City', sorted(df['city'].unique().tolist()))
 
         # Button to fetch details
         btn3 = st.sidebar.button('Find Details')
 
         if btn3:
             # Get the state corresponding to the selected city
-            if 'state' in df.columns:  # Check if 'state' exists
-                state_for_city = df[df['city'] == selected_city]['state'].iloc[0]
-                # Pass both city and state to the function
-                find_city_detail(selected_city, state_for_city)
-            else:
-                st.error("'state' column is missing in the dataset.")  # Display error if 'state' column is missing
-                return
+            state_for_city = df[df['city'] == selected_city]['state'].iloc[0]
+            
+            # Pass both city and state to the function
+            find_city_detail(selected_city, state_for_city)
+
 
     add_linkedin()
 
 if __name__ == "__main__":
-    main()
+    main() 
