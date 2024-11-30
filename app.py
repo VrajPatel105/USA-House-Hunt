@@ -7,13 +7,9 @@ import time
 from state_images import city_images
 from api import get_unsplash_image
 from functools import lru_cache
-import os
 
 st.set_page_config(layout='wide',page_title='USA House Hunt', page_icon='favio.ico')# this should always be at the top of the code for streamlit
 
-st.write("Current Working Directory:", os.getcwd())
-st.write("Files in Directory:", os.listdir(os.getcwd()))
-st.write("Files in 'data/' Directory:", os.listdir("data/") if os.path.exists("data/") else "No such directory")
 
 def add_header():
     st.markdown("""
