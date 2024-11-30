@@ -44,7 +44,7 @@ city_images = {
     "rhode-island": "https://i.natgeofe.com/n/186d55ce-5b97-4bf2-b131-3e1445cdb3d2/rhode-island-travel-guide-pages-BPT0PE.jpg?w=1436&h=958",
     "washington": "https://i.natgeofe.com/n/45dd7fda-7ed0-4c84-b8c3-5818baeb0a6f/washington-travel-guide-pages-NationalGeographic_2468394.jpg?w=1436&h=958",
     "south-carolina":"https://i.natgeofe.com/n/75cdc558-4fc3-48df-8de2-cc3d8a767352/south-carolina-travel-guide-pages-NationalGeographic_2572395.jpg?w=1436&h=952",
-    "north-carolina": "URLhttps://i.natgeofe.com/n/5b285e67-75ac-44bd-a222-7ddf5c4901de/north-carolina-travel-guide-pages-NationalGeographic_2430491.jpg?w=1436&h=958_HERE",
+    "north-carolina": "https://i.natgeofe.com/n/5b285e67-75ac-44bd-a222-7ddf5c4901de/north-carolina-travel-guide-pages-NationalGeographic_2430491.jpg?w=1436&h=958_HERE",
     "tennessee": "https://i.natgeofe.com/n/e5cdeff6-81ef-4495-800e-339ea40a15d3/tennesse-travel-guide-pages-GettyImages-601817885.jpg?w=1436&h=958",
     "vermont": "https://i.natgeofe.com/n/afa7edbf-7d74-489b-96e1-c0614fdc4021/vermont-travel-guide-pages-GettyImages-539075588.jpg?w=1436&h=958",
     "michigan": "https://i.natgeofe.com/n/4e0b0d9f-c2dd-4494-afb2-18c697aa591a/michigan-travel-guide-pages-NationalGeographic_495811.jpg?w=1436&h=958",
