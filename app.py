@@ -83,48 +83,45 @@ def add_linkedin():
 
 add_header()  # Add header at the top
 
+# Direct download links for your files
 csv_files = {
     "Cleaned Housing Data": "https://drive.google.com/uc?id=18srx_2De7TabIbjLzKxkxa5EpALcH8N1",
     "Coordinates": "https://drive.google.com/uc?id=1qBBsnkxOnNxP40U9Ye9H546uUIR9iFYc",
     "ZipDF": "https://drive.google.com/uc?id=15ue2JD939eEFtTfDOZ9dpFI9NYIhPXh4",
 }
 
-# Function to load data with caching
+# Function to load data from Google Drive with caching
 @st.cache_data
 def load_data_from_drive(url):
     return pd.read_csv(url)
 
-# Display and load the CSV files
-for name, url in csv_files.items():
-    st.write(f"### {name}")
-    try:
-        data = load_data_from_drive(url)
-        st.write(data.head())  # Display the first few rows
-    except Exception as e:
-        st.error(f"Failed to load {name}: {e}")
-
-# Example usage of cached functions for specific files
+# Load Cleaned Housing Data
 @st.cache_data
 def load_cleaned_housing_data():
     url = csv_files["Cleaned Housing Data"]
     df = load_data_from_drive(url)
-    # Clean price data once at load time
-    if df['price (USD)'].dtype == object:
-        df['price (USD)'] = df['price (USD)'].str.replace('$', '').str.replace(',', '').astype(float)
+    # Ensure price column is properly cleaned
+    if "price (USD)" in df.columns and df["price (USD)"].dtype == object:
+        df["price (USD)"] = df["price (USD)"].str.replace("$", "").str.replace(",", "").astype(float)
+    else:
+        st.warning("Column 'price (USD)' is missing or already processed.")
     return df
 
+# Load Coordinates Data
 @st.cache_data
 def load_coordinates():
     return load_data_from_drive(csv_files["Coordinates"])
 
+# Load ZipDF Data
 @st.cache_data
 def load_zipcode_data():
     return load_data_from_drive(csv_files["ZipDF"])
 
-# I have cleaned the primary data and than saved it to cleaned_housing_data.csv, and then continued from here for streamlit.
+# Load data silently (no printing)
 df = load_cleaned_housing_data()
 coords = load_coordinates()
 zipcode_df = load_zipcode_data()
+
 
 
 def add_key_insights():
