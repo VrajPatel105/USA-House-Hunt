@@ -8,9 +8,10 @@ from state_images import city_images
 from api import get_unsplash_image
 from functools import lru_cache
 
+# setting up the page initial configurtion
 st.set_page_config(layout='wide',page_title='USA House Hunt', page_icon='favio.ico')# this should always be at the top of the code for streamlit
 
-
+# little bit styling for header post
 def add_header():
     st.markdown("""
         <style>
@@ -43,6 +44,7 @@ def add_header():
         </div>
     """, unsafe_allow_html=True)
     
+# adding linkedin symbol with link at the left bottom.
 def add_linkedin():
     st.sidebar.markdown("""
         <style>
@@ -82,9 +84,9 @@ def add_linkedin():
     """, unsafe_allow_html=True)
 
 
-add_header()  # Add header at the top
+add_header()  # header at the top
 
-# Add these right after your imports
+# using memory efficient ways to improve data loading and speed
 @st.cache_data
 def load_data():
     df = pd.read_csv('data/cleaned_housing_data.csv')
@@ -117,6 +119,7 @@ def add_key_insights():
     with cols[2]:
         st.info("💰 Best Value: Mississippi")
 
+# function for overall dashboard..
 def load_overall_dashboard():
     st.title('Overall Details')
     avg_house_price = '$410,000'
@@ -141,6 +144,7 @@ def load_overall_dashboard():
 
 
     # Data with all U.S. states and their average housing prices
+    # data for the heatmap
     housing_data = pd.DataFrame({
         'State': [
             'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
@@ -224,12 +228,12 @@ def load_overall_dashboard():
         unsafe_allow_html=True
     )
 
-
+# function to display the image of a city using local images present in state_images.
 def display_city_image(state):
-    # Convert state name to lowercase and replace spaces with hyphens
+    # Converting state name to lowercase and replace spaces with hyphens
     state_key = state.lower().replace(" ", "-")
     
-    # Check if the state has an image
+    # Checking if the state has an image or not
     if state_key in city_images:
         st.image(city_images[state_key], use_container_width=True, caption=f"Welcome to {state}")
     else:
