@@ -103,8 +103,6 @@ def load_cleaned_housing_data():
     # Ensure price column is properly cleaned
     if "price (USD)" in df.columns and df["price (USD)"].dtype == object:
         df["price (USD)"] = df["price (USD)"].str.replace("$", "").str.replace(",", "").astype(float)
-    else:
-        st.warning("Column 'price (USD)' is missing or already processed.")
     return df
 
 # Load Coordinates Data
@@ -121,6 +119,8 @@ def load_zipcode_data():
 df = load_cleaned_housing_data()
 coords = load_coordinates()
 zipcode_df = load_zipcode_data()
+df.columns = df.columns.str.strip().str.lower()  # Added this line to clean column names
+zipcode_df.columns = zipcode_df.columns.str.strip().str.lower()  # Ensure consistency for zipcode_df
 
 
 
@@ -504,14 +504,17 @@ def find_city_detail(city, state):
 def main():
     # Then update your main navigation code to include these:
     st.sidebar.title('Locate Property Details')
-    option = st.sidebar.selectbox('Select One',['Overall', 'State','City'])
-
+    option = st.sidebar.selectbox('Select One', ['Overall', 'State', 'City'])
 
     if option == 'Overall':
         load_overall_dashboard()
     elif option == 'State':
         # State-level selection
-        selected_state = st.sidebar.selectbox('Select State', sorted(df['state'].unique().tolist()))
+        if 'state' in df.columns:  # Check if 'state' exists
+            selected_state = st.sidebar.selectbox('Select State', sorted(df['state'].unique().tolist()))
+        else:
+            st.error("'state' column is missing in the dataset.")  # Display error if 'state' column is missing
+            return
 
         # Store the state of btn1 (Find State Details)
         if st.sidebar.button('Find State Details'):
@@ -522,7 +525,11 @@ def main():
             find_state_details(st.session_state['state_selected'])
 
             # Filter cities for the selected state
-            cities_in_state = df[df['state'] == st.session_state['state_selected']]['city'].unique().tolist()
+            if 'city' in df.columns:  # Check if 'city' exists
+                cities_in_state = df[df['state'] == st.session_state['state_selected']]['city'].unique().tolist()
+            else:
+                st.error("'city' column is missing in the dataset.")  # Display error if 'city' column is missing
+                return
 
             # Dropdown to select a city within the state
             selected_city = st.selectbox('Select City in State', sorted(cities_in_state), key="city_selector")
@@ -536,18 +543,24 @@ def main():
                 find_city_detail(st.session_state['city_selected'], selected_state)
     else:
         # Dropdown to select a city
-        selected_city = st.sidebar.selectbox('Select City', sorted(df['city'].unique().tolist()))
+        if 'city' in df.columns:  # Check if 'city' exists
+            selected_city = st.sidebar.selectbox('Select City', sorted(df['city'].unique().tolist()))
+        else:
+            st.error("'city' column is missing in the dataset.")  # Display error if 'city' column is missing
+            return
 
         # Button to fetch details
         btn3 = st.sidebar.button('Find Details')
 
         if btn3:
             # Get the state corresponding to the selected city
-            state_for_city = df[df['city'] == selected_city]['state'].iloc[0]
-            
-            # Pass both city and state to the function
-            find_city_detail(selected_city, state_for_city)
-
+            if 'state' in df.columns:  # Check if 'state' exists
+                state_for_city = df[df['city'] == selected_city]['state'].iloc[0]
+                # Pass both city and state to the function
+                find_city_detail(selected_city, state_for_city)
+            else:
+                st.error("'state' column is missing in the dataset.")  # Display error if 'state' column is missing
+                return
 
     add_linkedin()
 
