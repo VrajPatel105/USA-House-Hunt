@@ -10,6 +10,7 @@ def get_unsplash_image(search_query):
     :param search_query: The term to search for (e.g., city name).
     :return: A URL to the image or None if not found.
     """
+    search_query = search_query + ' houses'
     url = "https://api.unsplash.com/search/photos"
     params = {
         "query": search_query,  # Search term
