@@ -27,7 +27,7 @@ city_images = {
     "north-dakota": "https://i.natgeofe.com/n/5f36dc70-9079-471b-bcaf-fd221ad3cac1/north-dakota-travel-guide-pages-NationalGeographic_1333622.jpg?w=1436&h=1078",
     "alaska": "https://i.natgeofe.com/n/64c87235-8a17-4a0f-8dba-59d2783822d7/alaska-travel-guide-pages-NationalGeographic_1437003.jpg?w=1436&h=958",
     "maine": "https://i.natgeofe.com/n/a3c9840c-5f71-475a-8f4d-ffeb6ef3bd8e/maine-travel-guide-lighthouse.jpg?w=1436&h=958",
-    "new york": "https://i.natgeofe.com/n/df0d1608-d886-44aa-9f54-1a9a52c90b59/newyork_NationalGeographic_2328428.jpg?w=1436&h=958",
+    "new-york": "https://i.natgeofe.com/n/df0d1608-d886-44aa-9f54-1a9a52c90b59/newyork_NationalGeographic_2328428.jpg?w=1436&h=958",
     "texas": "https://i.natgeofe.com/n/14ad2c4a-7e05-4419-a2cc-56d3a9c1b96e/texas-travel-guide-pages-NationalGeographic_1164642.jpg?w=1436&h=1054",
     "wyoming" : "https://i.natgeofe.com/n/ba1d386e-1015-4c2d-8402-02d519c7e14d/wyoming-travel-guide-pages-NationalGeographic_2432754.jpg?w=1436&h=958",
     "new_hampshire": "https://i.natgeofe.com/n/1e8d27b1-8f45-4eed-bca1-a1fc187b33f2/new-hampshire-travel-guide-pages-GettyImages-186544011.jpg?w=1436&h=948",
