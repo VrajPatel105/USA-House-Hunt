@@ -535,7 +535,7 @@ def main():
             # Pass both city and state to the function
             find_city_detail(selected_city, state_for_city)
 
-
+    # This is just a function to add linkedin icon at the left bottom of the page
     add_linkedin()
 
 if __name__ == "__main__":
