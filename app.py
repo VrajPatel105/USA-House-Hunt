@@ -538,5 +538,6 @@ def main():
     # This is just a function to add linkedin icon at the left bottom of the page
     add_linkedin()
 
+
 if __name__ == "__main__":
     main() 
