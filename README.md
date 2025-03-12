@@ -7,7 +7,7 @@ An interactive web application for exploring real estate data across the United 
 * **National Overview**
 - Interactive heat map of housing prices across all states
 - Real-time market insights and trends
-- Comparative analysis of housing markets
+- Comparative analysis of housing markets 
 - Key metrics visualization
 
 * **State Analysis**
