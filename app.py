@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import plotly.express as px
-import numpy as np
+import numpy as np 
 import time
 from state_images import city_images
 from api import get_unsplash_image
