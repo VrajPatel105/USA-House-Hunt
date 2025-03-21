@@ -9,7 +9,7 @@ from api import get_unsplash_image
 from functools import lru_cache 
 
 # setting up the page initial configurtion
-st.set_page_config(layout='wide',page_title='USA House Hunt', page_icon='favio.ico')# this should always be at the top of the code for streamlit
+st.set_page_config(layout='wide',page_title='USA House Hunt', page_icon='favio.ico')# this should always  be at the top of the code for streamlit
 
 # little bit styling for header post
 def add_header():
